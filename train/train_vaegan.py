@@ -16,11 +16,20 @@ import torchvision.transforms as transforms
 from pytorch_gan_metrics import get_inception_score, get_fid
 from torchmetrics.image.fid import FrechetInceptionDistance
 from torch import nn
+import wandb
 
 
 def main(config):
 
     use_cuda = config["train_config"]["use_cuda"] and torch.cuda.is_available()
+
+
+    if config['wandb']:
+        wandb.init(
+            project = 'cbgm',
+            entity = "mariamartinezga",
+            config=config
+        )
 
     if config["train_config"]["save_model"]:
         save_model_name = "vaegan_" + config["dataset"]["name"]
@@ -178,7 +187,12 @@ def main(config):
                         g_loss.item(),
                     )
                 )
-
+            if config['wandb']:
+                wandb.log({
+                    "d_loss": d_loss.item(),
+                    "g_loss": g_loss.item(),
+                    "epoch": epoch
+                })
         model.eval()
         fid = FrechetInceptionDistance(feature=64, normalize=True).to(device)
         fid.update(imgs_tst, real=True)
@@ -230,7 +244,11 @@ def main(config):
             g_loss_epoch = g_loss_epoch / len(dataloader)
 
             fid_value.append(epoch_fid)
-
+        if config['wandb']:
+                wandb.log({
+                    "fid_value": epoch_fid.item(),
+                    "epoch": epoch
+                })
         if config["train_config"]["save_model"]:
             if best_FID > epoch_fid:
                 print("Saving...")

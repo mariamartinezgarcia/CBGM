@@ -37,3 +37,4 @@ evaluation:
   generation: True
   save_images: True
   save_results: True
+wandb: True

@@ -36,3 +36,4 @@ evaluation:
   save_concept_image: True
   score_concepts: True
   save_results: True
+wandb: True

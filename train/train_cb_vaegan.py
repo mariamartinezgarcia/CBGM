@@ -20,6 +20,8 @@ from torchmetrics.image.fid import FrechetInceptionDistance
 import warnings
 import itertools
 
+import wandb
+
 warnings.filterwarnings("ignore", category=UserWarning)
 
 
@@ -53,6 +55,14 @@ def get_concept_loss(model, predicted_concepts, concepts, isList=False):
 def main(config):
 
     use_cuda = config["train_config"]["use_cuda"] and torch.cuda.is_available()
+
+    if config['wandb']:
+        wandb.init(
+            project = 'cbgm',
+            entity = "mariamartinezga",
+            config=config
+        )
+        
     if use_cuda:
         device = torch.device("cuda")
     else:
@@ -306,6 +316,16 @@ def main(config):
                     )
                 )
 
+            if config['wandb']:
+                wandb.log({
+                    "d_loss": d_loss.item(),
+                    "g_loss": g_loss.item(),
+                    "prior_loss": prior_loss.item(),
+                    "concept_loss": concept_loss.item(),
+                    "orthogonality_loss": orthognality_loss.item(),
+                    "epoch": epoch
+                })
+
         model.eval()
         fid = FrechetInceptionDistance(feature=64, normalize=True).to(device)
         fid.update(imgs_tst, real=True)
@@ -333,6 +353,12 @@ def main(config):
                     gen_acc * 100,
                 )
             )
+        if config['wandb']:
+                wandb.log({
+                    "fid_value": epoch_fid.item(),
+                    "gen_acc": gen_acc,
+                    "epoch": epoch
+                })
         if config["evaluation"]["save_images"]:
             save_image(
                 gen_imgs.data, save_image_loc + "%d.png" % epoch, nrow=8, normalize=True
