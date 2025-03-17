@@ -211,9 +211,10 @@ class cbGAN(Basic):
             h = self.sample_latent(batch_size)
         else:
             h = self.sample_latent(batch_size).squeeze(2).squeeze(2)
+
         fake_data = self.dec(h)
         return fake_data
-
+    
     @property
     def device(self):
         return next(self.parameters()).device

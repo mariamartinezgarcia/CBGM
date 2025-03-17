@@ -51,20 +51,23 @@ def sample_code(num, model, return_list=False) -> torch.Tensor:
 
 
 def get_dataset(config, batch_size=None, istesting=False):
+
+    root = config["dataset"]["root_path"]
+
     if batch_size == None:
         batch_size = config["dataset"]["batch_size"]
 
     if istesting:
         if config["dataset"]["name"] == "color_mnist":
 
-            if not (os.path.isfile("./data/color_mnist/train.pt")):
+            if not (os.path.isfile(root+"color_mnist/train.pt")):
 
                 ###### if not exist create it
-                color_mnist.generate_data()
+                color_mnist.generate_data(root=root)
 
             dl = torch.utils.data.DataLoader(
                 color_mnist.ColoredMNIST(
-                    root="./data",
+                    root=root,
                     env="test",
                     transform=transforms.Compose(
                         [
@@ -93,20 +96,20 @@ def get_dataset(config, batch_size=None, istesting=False):
                 selected_concepts=False,
             )
 
-            _, _, dl, _ = celeba.generate_data(CELEBA_CONFIG, ds_for_generation=False)
+            _, _, dl, _ = celeba.generate_data(CELEBA_CONFIG, root=root, ds_for_generation=False)
 
     else:
         if config["dataset"]["name"] == "color_mnist":
             ##### Check if exist
 
-            if not (os.path.isfile("./data/color_mnist/train.pt")):
+            if not (os.path.isfile(root+"color_mnist/train.pt")):
 
                 ###### if not exist create it
-                color_mnist.generate_data()
+                color_mnist.generate_data(root=root)
 
             dl = torch.utils.data.DataLoader(
                 color_mnist.ColoredMNIST(
-                    root="./data",
+                    root=root,
                     env="train",
                     transform=transforms.Compose(
                         [
@@ -133,5 +136,5 @@ def get_dataset(config, batch_size=None, istesting=False):
                 selected_concepts=False,
             )
 
-            dl = celeba.generate_data(CELEBA_CONFIG, ds_for_generation=True)
+            dl = celeba.generate_data(CELEBA_CONFIG,root=root, ds_for_generation=True)
     return dl
