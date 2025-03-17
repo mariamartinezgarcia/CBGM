@@ -13,7 +13,6 @@ import itertools
 from models import vaegan
 from utils.utils import get_dataset
 import torchvision.transforms as transforms
-from pytorch_gan_metrics import get_inception_score, get_fid
 from torchmetrics.image.fid import FrechetInceptionDistance
 from torch import nn
 import wandb

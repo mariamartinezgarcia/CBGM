@@ -15,7 +15,6 @@ from torch import nn
 from models import cb_vaegan
 import torchvision.transforms as transforms
 from utils import gan_loss
-from pytorch_gan_metrics import get_inception_score, get_fid
 from torchmetrics.image.fid import FrechetInceptionDistance
 import warnings
 import itertools
