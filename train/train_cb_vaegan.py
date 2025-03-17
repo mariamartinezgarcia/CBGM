@@ -391,3 +391,5 @@ def main(config):
         )
 
         print()
+
+        torch.cuda.empty_cache()

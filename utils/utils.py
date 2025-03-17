@@ -60,11 +60,11 @@ def get_dataset(config, batch_size=None, istesting=False):
     if istesting:
         if config["dataset"]["name"] == "confounded_color_mnist":
 
-            if not (os.path.isfile(root+"color_mnist/train.pt")):
+            if not (os.path.isfile(root+"color_mnist/test.pt")):
 
                 print('generating dataset')
                 ###### if not exist create it
-                color_mnist.generate_data(root=root, confounded=True)
+                color_mnist.generate_data(root=root, confounded=True, env='test')
 
             dl = torch.utils.data.DataLoader(
                 color_mnist.ColoredMNIST(
@@ -83,10 +83,10 @@ def get_dataset(config, batch_size=None, istesting=False):
 
         elif config["dataset"]["name"] == "color_mnist":
 
-            if not (os.path.isfile(root+"color_mnist/train.pt")):
+            if not (os.path.isfile(root+"color_mnist/test.pt")):
 
                 ###### if not exist create it
-                color_mnist.generate_data(root=root)
+                color_mnist.generate_data(root=root, env='test')
 
             dl = torch.utils.data.DataLoader(
                 color_mnist.ColoredMNIST(

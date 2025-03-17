@@ -24,7 +24,7 @@ def main():
         config = yaml.safe_load(stream)
     print(f"Loaded configuration file {'./config/cb_vaegan/confounded_color_mnist.yaml'}")
 
-    dataloader = get_dataset(config)
+    dataloader = get_dataset(config, istesting=True)
 
     for batch in dataloader:
         images, labels = batch  # Assuming the dataloader returns (image, label)

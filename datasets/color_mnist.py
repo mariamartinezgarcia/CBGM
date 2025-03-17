@@ -88,78 +88,146 @@ class generate_data(datasets.VisionDataset):
         target and transforms it.
     """
 
-    def __init__(self, root="./data", transform=None, target_transform=None, confounded=False):
+    def __init__(self, root="./data", env="train", transform=None, target_transform=None, confounded=False):
         super(generate_data, self).__init__(
             root, transform=transform, target_transform=target_transform
         )
 
         if confounded:
-            self.prepare_confounded_colored_mnist()
+            self.prepare_confounded_colored_mnist(env)
         else:
             self.prepare_colored_mnist()
 
-    def prepare_colored_mnist(self):
-        colored_mnist_dir = os.path.join(self.root, "color_mnist")
-        if os.path.exists(
-            os.path.join(colored_mnist_dir, "train.pt")
-        ) and os.path.exists(os.path.join(colored_mnist_dir, "train.pt")):
-            print("Colored MNIST dataset already exists")
-            return
+    def prepare_colored_mnist(self, env):
 
-        print("Preparing Colored MNIST")
-        train_mnist = datasets.mnist.MNIST("./data/mnist", train=True, download=True)
+        if env=='train':
+            colored_mnist_dir = os.path.join(self.root, "color_mnist")
+            if os.path.exists(
+                os.path.join(colored_mnist_dir, "train.pt")
+            ) and os.path.exists(os.path.join(colored_mnist_dir, "train.pt")):
+                print("Colored MNIST dataset already exists")
+                return
 
-        train_set = []
+            print("Preparing Colored MNIST")
+            train_mnist = datasets.mnist.MNIST("./data/mnist", train=True, download=True)
 
-        for idx, (im, label) in enumerate(train_mnist):
-            if idx % 10000 == 0:
-                print(f"Converting image {idx}/{len(train_mnist)} in train mnist")
-            im_array = np.array(im)
-            if np.random.uniform() < 0.5:
-                color_red = 0
-                color_green = 1
-            else:
-                color_red = 1
-                color_green = 0
+            train_set = []
 
-            colored_arr = color_grayscale_arr(im_array, red=color_red)
-            train_set.append(
-                (Image.fromarray(colored_arr), [label, color_red, color_green])
-            )
+            for idx, (im, label) in enumerate(train_mnist):
+                if idx % 10000 == 0:
+                    print(f"Converting image {idx}/{len(train_mnist)} in train mnist")
+                im_array = np.array(im)
+                if np.random.uniform() < 0.5:
+                    color_red = 0
+                    color_green = 1
+                else:
+                    color_red = 1
+                    color_green = 0
 
-        os.makedirs(colored_mnist_dir, exist_ok=True)
-        torch.save(train_set, os.path.join(colored_mnist_dir, "train.pt"))
+                colored_arr = color_grayscale_arr(im_array, red=color_red)
+                train_set.append(
+                    (Image.fromarray(colored_arr), [label, color_red, color_green])
+                )
+
+            os.makedirs(colored_mnist_dir, exist_ok=True)
+            torch.save(train_set, os.path.join(colored_mnist_dir, "train.pt"))
+
+        if env=='test':
+            colored_mnist_dir = os.path.join(self.root, "color_mnist")
+            if os.path.exists(
+                os.path.join(colored_mnist_dir, "test.pt")
+            ) and os.path.exists(os.path.join(colored_mnist_dir, "test.pt")):
+                print("Colored MNIST dataset already exists")
+                return
+
+            print("Preparing Colored MNIST")
+            test_mnist = datasets.mnist.MNIST("./data/mnist", train=False, download=True)
+
+            test_set = []
+
+            for idx, (im, label) in enumerate(test_mnist):
+                if idx % 10000 == 0:
+                    print(f"Converting image {idx}/{len(test_mnist)} in test mnist")
+                im_array = np.array(im)
+                if np.random.uniform() < 0.5:
+                    color_red = 0
+                    color_green = 1
+                else:
+                    color_red = 1
+                    color_green = 0
+
+                colored_arr = color_grayscale_arr(im_array, red=color_red)
+                test_set.append(
+                    (Image.fromarray(colored_arr), [label, color_red, color_green])
+                )
+
+            os.makedirs(colored_mnist_dir, exist_ok=True)
+            torch.save(test_set, os.path.join(colored_mnist_dir, "test.pt"))
     
-    def prepare_confounded_colored_mnist(self):
-        colored_mnist_dir = os.path.join(self.root, "color_mnist")
-        if os.path.exists(
-            os.path.join(colored_mnist_dir, "train.pt")
-        ) and os.path.exists(os.path.join(colored_mnist_dir, "train.pt")):
-            print("Confounded Colored MNIST dataset already exists")
-            return
+    def prepare_confounded_colored_mnist(self, env):
 
-        print("Preparing Confounded Colored MNIST")
-        train_mnist = datasets.mnist.MNIST("./data/mnist", train=True, download=True)
+        if env=='train':
+            colored_mnist_dir = os.path.join(self.root, "color_mnist")
+            if os.path.exists(
+                os.path.join(colored_mnist_dir, "train.pt")
+            ) and os.path.exists(os.path.join(colored_mnist_dir, "train.pt")):
+                print("Confounded Colored MNIST dataset already exists")
+                return
 
-        train_set = []
+            print("Preparing Confounded Colored MNIST")
+            train_mnist = datasets.mnist.MNIST("./data/mnist", train=True, download=True)
 
-        for idx, (im, label) in enumerate(train_mnist):
-            if idx % 10000 == 0:
-                print(f"Converting image {idx}/{len(train_mnist)} in train mnist")
-            im_array = np.array(im)
-            if label % 2 == 0:
-                color_red = 0
-                color_green = 1
-            else:
-                color_red = 1
-                color_green = 0
+            train_set = []
 
-            colored_arr = color_grayscale_arr(im_array, red=color_red)
-            train_set.append(
-                (Image.fromarray(colored_arr), [label, color_red, color_green])
-            )
+            for idx, (im, label) in enumerate(train_mnist):
+                if idx % 10000 == 0:
+                    print(f"Converting image {idx}/{len(train_mnist)} in train mnist")
+                im_array = np.array(im)
+                if label % 2 == 0:
+                    color_red = 0
+                    color_green = 1
+                else:
+                    color_red = 1
+                    color_green = 0
 
-        os.makedirs(colored_mnist_dir, exist_ok=True)
-        torch.save(train_set, os.path.join(colored_mnist_dir, "train.pt"))
+                colored_arr = color_grayscale_arr(im_array, red=color_red)
+                train_set.append(
+                    (Image.fromarray(colored_arr), [label, color_red, color_green])
+                )
+
+            os.makedirs(colored_mnist_dir, exist_ok=True)
+            torch.save(train_set, os.path.join(colored_mnist_dir, "train.pt"))
+
+        if env=='test':
+            colored_mnist_dir = os.path.join(self.root, "color_mnist")
+            if os.path.exists(
+                os.path.join(colored_mnist_dir, "test.pt")
+            ) and os.path.exists(os.path.join(colored_mnist_dir, "test.pt")):
+                print("Colored MNIST dataset already exists")
+                return
+
+            print("Preparing Colored MNIST")
+            test_mnist = datasets.mnist.MNIST("./data/mnist", train=False, download=True)
+
+            test_set = []
+
+            for idx, (im, label) in enumerate(test_mnist):
+                if idx % 10000 == 0:
+                    print(f"Converting image {idx}/{len(test_mnist)} in test mnist")
+                im_array = np.array(im)
+                if label % 2 == 0:
+                    color_red = 0
+                    color_green = 1
+                else:
+                    color_red = 1
+                    color_green = 0
+
+                colored_arr = color_grayscale_arr(im_array, red=color_red)
+                test_set.append(
+                    (Image.fromarray(colored_arr), [label, color_red, color_green])
+                )
+
+            os.makedirs(colored_mnist_dir, exist_ok=True)
+            torch.save(test_set, os.path.join(colored_mnist_dir, "test.pt"))
 
 
