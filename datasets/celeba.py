@@ -112,6 +112,7 @@ def generate_data(
 ):
 
     root_dir = os.path.join(root, "celeba")
+    print(root_dir)
 
     use_binary_vector_class = config.get("use_binary_vector_class", False)
     if use_binary_vector_class:
@@ -128,7 +129,7 @@ def generate_data(
         celeba_train_data = torchvision.datasets.CelebA(
             root=root_dir,
             split="all",
-            download=True,
+            download=False,
             target_transform=lambda x: x[0].long() - 1,
             target_type=["attr"],
         )
@@ -166,7 +167,7 @@ def generate_data(
         celeba_train_data = torchvision.datasets.CelebA(
             root=root_dir,
             split="all",
-            download=True,
+            download=False,
             transform=transforms.Compose(
                 [
                     transforms.Resize(config["image_size"]),
@@ -208,7 +209,7 @@ def generate_data(
         celeba_train_data = torchvision.datasets.CelebA(
             root=root_dir,
             split="all",
-            download=True,
+            download=False,
             transform=transforms.Compose(
                 [
                     transforms.Resize(config["image_size"]),
@@ -244,7 +245,7 @@ def generate_data(
         celeba_train_data = torchvision.datasets.CelebA(
             root=root_dir,
             split="all",
-            download=True,
+            download=False,
             target_transform=lambda x: x[0].long() - 1,
             target_type=["identity"],
         )
@@ -276,7 +277,7 @@ def generate_data(
         celeba_train_data = torchvision.datasets.CelebA(
             root=root_dir,
             split="all",
-            download=True,
+            download=False,
             transform=transforms.Compose(
                 [
                     transforms.Resize(config["image_size"]),
