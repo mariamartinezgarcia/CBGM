@@ -220,6 +220,11 @@ class Generator_Simple(nn.Module):
             ),
             nn.Sigmoid(),
         )
+    
+    # weight_init
+    def weight_init(self, mean, std):
+        for m in self._modules:
+            normal_init(self._modules[m], mean, std)
 
     def forward(self, x):
         x = self.fc1(x.squeeze())

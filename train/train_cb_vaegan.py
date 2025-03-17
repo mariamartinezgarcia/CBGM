@@ -354,7 +354,7 @@ def main(config):
             )
         if config['wandb']:
                 wandb.log({
-                    "fid_value": epoch_fid.item(),
+                    "fid_value": epoch_fid,
                     "gen_acc": gen_acc,
                     "epoch": epoch
                 })
