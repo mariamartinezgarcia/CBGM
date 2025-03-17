@@ -1,8 +1,15 @@
 import argparse
 import yaml
+import os
 from train.train_cb_vaegan import main as train_cb_vaegan
 from train.train_vaegan import main as train_vaegan
 
+#WANDB CONFIGURATIONS FOR CLUSTER
+os.environ["WANDB__SERVICE_WAIT"] = "300"
+os.environ['SSL_CERT_DIR'] = '/etc/ssl/certs'
+os.environ['REQUESTS_CA_BUNDLE'] = '/etc/ssl/certs/ca-certificates.crt'
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 def main():
     # We only specify the yaml file from argparse and handle rest
