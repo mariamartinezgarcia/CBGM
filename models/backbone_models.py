@@ -260,6 +260,11 @@ class Discriminator_Simple(nn.Module):
 
         self.fc2 = nn.Linear(self.h3_dim, 1)
 
+    # weight_init
+    def weight_init(self, mean, std):
+        for m in self._modules:
+            normal_init(self._modules[m], mean, std)
+            
     def forward(self, x, code=None, return_prob=False):
         x = self.conv1(x)
         x = self.conv2(x).view(-1, 7 * 7 * self.h2_nchan)
