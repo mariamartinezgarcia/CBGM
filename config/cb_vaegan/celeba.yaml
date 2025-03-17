@@ -1,6 +1,6 @@
 dataset:
   name: celeba
-  rooth_path: /home/martinez-garcia/data/
+  root_path: "/home/martinez-garcia/data/"
   transforms_1: (0.5)
   transforms_2: (0.5)
   img_size: 64
@@ -38,4 +38,4 @@ evaluation:
   generation: True
   save_images: True
   save_results: True
-wandb: False
+wandb: True
