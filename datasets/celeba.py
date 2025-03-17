@@ -111,7 +111,8 @@ def generate_data(
     ds_for_generation=True,
 ):
 
-    root_dir = os.path.join(root, "celeba")
+    #root_dir = os.path.join(root, "celeba")
+    root_dir=root
     print(root_dir)
 
     use_binary_vector_class = config.get("use_binary_vector_class", False)

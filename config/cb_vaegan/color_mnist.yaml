@@ -1,6 +1,6 @@
 dataset:
   name: color_mnist
-  root_path: "/home/martinez-garcia/data/"
+  root_path: "/home/martinez-garcia/data"
   img_size: 28
   batch_size: 64
   test_batch_size: 1000
