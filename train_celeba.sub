@@ -6,7 +6,7 @@ should_transfer_files   = YES
 when_to_transfer_output = ON_EXIT
 transfer_input_files = execute.sh 
 
-requirements = ((UidDomain == "cs.uni-saarland.de") &&  (GPUs_GlobalMemoryMb >= 20000))  && (GPUs_GlobalMemoryMb < 18000)
+requirements = ((UidDomain == "cs.uni-saarland.de") &&  (GPUs_GlobalMemoryMb >= 20000))
 +WantGPUHomeMounted = true
 
 request_GPUs = 1

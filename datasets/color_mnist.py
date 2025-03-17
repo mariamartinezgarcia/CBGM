@@ -72,6 +72,7 @@ class ColoredMNIST(datasets.VisionDataset):
 
     def __len__(self):
         return len(self.data_label_tuples)
+        
 
 
 class generate_data(datasets.VisionDataset):
@@ -87,12 +88,15 @@ class generate_data(datasets.VisionDataset):
         target and transforms it.
     """
 
-    def __init__(self, root="./data", transform=None, target_transform=None):
+    def __init__(self, root="./data", transform=None, target_transform=None, confounded=False):
         super(generate_data, self).__init__(
             root, transform=transform, target_transform=target_transform
         )
 
-        self.prepare_colored_mnist()
+        if confounded:
+            self.prepare_confounded_colored_mnist()
+        else:
+            self.prepare_colored_mnist()
 
     def prepare_colored_mnist(self):
         colored_mnist_dir = os.path.join(self.root, "color_mnist")
@@ -125,3 +129,37 @@ class generate_data(datasets.VisionDataset):
 
         os.makedirs(colored_mnist_dir, exist_ok=True)
         torch.save(train_set, os.path.join(colored_mnist_dir, "train.pt"))
+    
+    def prepare_confounded_colored_mnist(self):
+        colored_mnist_dir = os.path.join(self.root, "color_mnist")
+        if os.path.exists(
+            os.path.join(colored_mnist_dir, "train.pt")
+        ) and os.path.exists(os.path.join(colored_mnist_dir, "train.pt")):
+            print("Confounded Colored MNIST dataset already exists")
+            return
+
+        print("Preparing Confounded Colored MNIST")
+        train_mnist = datasets.mnist.MNIST("./data/mnist", train=True, download=True)
+
+        train_set = []
+
+        for idx, (im, label) in enumerate(train_mnist):
+            if idx % 10000 == 0:
+                print(f"Converting image {idx}/{len(train_mnist)} in train mnist")
+            im_array = np.array(im)
+            if label % 2 == 0:
+                color_red = 0
+                color_green = 1
+            else:
+                color_red = 1
+                color_green = 0
+
+            colored_arr = color_grayscale_arr(im_array, red=color_red)
+            train_set.append(
+                (Image.fromarray(colored_arr), [label, color_red, color_green])
+            )
+
+        os.makedirs(colored_mnist_dir, exist_ok=True)
+        torch.save(train_set, os.path.join(colored_mnist_dir, "train.pt"))
+
+

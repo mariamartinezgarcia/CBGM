@@ -58,7 +58,30 @@ def get_dataset(config, batch_size=None, istesting=False):
         batch_size = config["dataset"]["batch_size"]
 
     if istesting:
-        if config["dataset"]["name"] == "color_mnist":
+        if config["dataset"]["name"] == "confounded_color_mnist":
+
+            if not (os.path.isfile(root+"color_mnist/train.pt")):
+
+                print('generating dataset')
+                ###### if not exist create it
+                color_mnist.generate_data(root=root, confounded=True)
+
+            dl = torch.utils.data.DataLoader(
+                color_mnist.ColoredMNIST(
+                    root=root,
+                    env="test",
+                    transform=transforms.Compose(
+                        [
+                            transforms.Resize(config["dataset"]["img_size"]),
+                            transforms.ToTensor(),
+                        ]
+                    ),
+                ),
+                batch_size=batch_size,
+                shuffle=True,
+            )
+
+        elif config["dataset"]["name"] == "color_mnist":
 
             if not (os.path.isfile(root+"color_mnist/train.pt")):
 
@@ -99,7 +122,29 @@ def get_dataset(config, batch_size=None, istesting=False):
             _, _, dl, _ = celeba.generate_data(CELEBA_CONFIG, root=root, ds_for_generation=False)
 
     else:
-        if config["dataset"]["name"] == "color_mnist":
+        if config["dataset"]["name"] == "confounded_color_mnist":
+            ##### Check if exist
+
+            if not (os.path.isfile(root+"color_mnist/train.pt")):
+
+                ###### if not exist create it
+                color_mnist.generate_data(root=root, confounded=True)
+
+            dl = torch.utils.data.DataLoader(
+                color_mnist.ColoredMNIST(
+                    root=root,
+                    env="train",
+                    transform=transforms.Compose(
+                        [
+                            transforms.Resize(config["dataset"]["img_size"]),
+                            transforms.ToTensor(),
+                        ]
+                    ),
+                ),
+                batch_size=batch_size,
+                shuffle=True,
+            )
+        elif config["dataset"]["name"] == "color_mnist":
             ##### Check if exist
 
             if not (os.path.isfile(root+"color_mnist/train.pt")):
