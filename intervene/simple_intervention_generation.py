@@ -23,7 +23,10 @@ import wandb
 warnings.filterwarnings("ignore", category=UserWarning)
 
 def find_string_position(lst, target_string):
-    return [index for index, value in enumerate(lst) if target_string in value]
+    for index, value in enumerate(lst):
+        if target_string in value:
+            return index
+    return -1
 
 def plot_images_side_by_side(image1, image2, title1="Active", title2="Inactive", wb=False):
     fig, axes = plt.subplots(1, 2, figsize=(10, 5))
