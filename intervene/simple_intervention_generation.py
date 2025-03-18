@@ -100,7 +100,7 @@ def main(config):
     # 2. Generate concept prob vectors for generation
     # list of c concepts, each element is a tensor with concept_bins prob values
     concept_probs = []
-    for i in len(config['model']['concepts']['concept_bins']):
+    for i in range(len(config['model']['concepts']['concept_bins'])):
         probs = torch.randn(num_imgs, config['model']['concepts']['concept_bins'][i])
         probs = F.softmax(probs, dim=1)
         concept_probs.append(probs.to(device))
