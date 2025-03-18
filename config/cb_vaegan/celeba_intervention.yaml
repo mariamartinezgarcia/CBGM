@@ -41,5 +41,5 @@ evaluation:
 eval_config:
   checkpoint: 'default'
   num_imgs: 50
-  concept_to_intervene: 'Heavy Makeup'
+  concept_to_intervene: 'Heavy_Makeup'
 wandb: True
