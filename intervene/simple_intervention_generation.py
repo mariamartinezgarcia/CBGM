@@ -116,10 +116,12 @@ def main(config):
     concept_probs_active = concept_probs.copy()
     concept_probs_active[c][:,0] = 0.001
     concept_probs_active[c][:,1] = 0.999
+    print('Concept Probabilities c Active', concept_probs_active)
     # 2.b Second batch we fix that concept as inactive
     concept_probs_inactive = concept_probs.copy()
     concept_probs_inactive[c][:,1] = 0.001
     concept_probs_inactive[c][:,0] = 0.999
+    print('Concept Probabilities c Inctive', concept_probs_inactive)
 
     # 3. Generate images with the concept active and inactive
     # 3.a Upload images to wandb by pairs (active/inactive)
@@ -129,6 +131,8 @@ def main(config):
     for i in range(num_imgs):
         title1 = 'Concept '+concept+' active'
         title2 = 'Concept '+concept+' inactive'
+        img1 = generated_active[i]*0.5 + 0.5
+        img1 = generated_inactive[i]*0.5 + 0.5
         plot_images_side_by_side(generated_active[i], generated_inactive[i], title1=title1, title2=title2, wb=wb)
     
     # 4. Save noise vectors and prob vectors for reproducibility
