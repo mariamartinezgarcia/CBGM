@@ -134,9 +134,11 @@ def main(config):
     for i in range(num_imgs):
         title1 = 'Concept '+concept+' active'
         title2 = 'Concept '+concept+' inactive'
+        img1 = generated_active[i]
+        img2 = generated_inactive[i]
         if dataset=='celeba':
-            img1 = generated_active[i]*0.5 + 0.5
-            img2 = generated_inactive[i]*0.5 + 0.5
+            img1 = img1*0.5 + 0.5
+            img2 = img2*0.5 + 0.5
         plot_images_side_by_side(img1, img2, title1=title1, title2=title2, wb=wb)
     
     # 4. Save noise vectors and prob vectors for reproducibility
