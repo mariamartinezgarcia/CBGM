@@ -38,20 +38,7 @@ def plot_images_side_by_side(image1, image2, title1="Active", title2="Inactive",
     
     plt.show()
 
-def main():
-
-    # We only specify the yaml file from argparse and handle rest
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "-d", "--dataset", default="color_mnist", help="benchmark dataset"
-    )
-
-    args = parser.parse_args()
-    args.config_file = "./config/cb_vaegan/" + args.dataset + ".yaml"
-
-    with open(args.config_file, "r") as stream:
-        config = yaml.safe_load(stream)
-    print(f"Loaded configuration file {args.config_file}")
+def main(config):
 
     use_cuda = config["train_config"]["use_cuda"] and torch.cuda.is_available()
 
