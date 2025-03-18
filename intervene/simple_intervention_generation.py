@@ -85,6 +85,7 @@ def main(config):
     model.to(device)
 
     # Load Checkpoint
+    print(save_model_name)
     model.load_state_dict(torch.load(save_model_name))
     print("Model loaded from {}".format(save_model_name))
 
