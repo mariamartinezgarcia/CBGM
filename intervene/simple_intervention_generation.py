@@ -5,6 +5,7 @@ sys.path.append(".")
 
 import argparse
 import yaml
+import copy
 
 import torch
 from torchvision.utils import save_image
@@ -113,12 +114,12 @@ def main(config):
     
     # Note: this is a quick intervention on binary concepts!! Check how are they handling the categorical concept in the digits
     # 2.a First batch we fix one concept as active
-    concept_probs_active = concept_probs.copy()
+    concept_probs_active = copy.deepcopy(concept_probs)
     concept_probs_active[c][:,0] = 0.001
     concept_probs_active[c][:,1] = 0.999
     print('Concept Probabilities c Active', concept_probs_active[c])
     # 2.b Second batch we fix that concept as inactive
-    concept_probs_inactive = concept_probs.copy()
+    concept_probs_inactive = copy.deepcopy(concept_probs)
     concept_probs_inactive[c][:,1] = 0.001
     concept_probs_inactive[c][:,0] = 0.999
     print('Concept Probabilities c Inactive', concept_probs_inactive[c])
