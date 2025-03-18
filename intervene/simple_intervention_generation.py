@@ -30,11 +30,11 @@ def find_string_position(lst, target_string):
 
 def plot_images_side_by_side(image1, image2, title1="Active", title2="Inactive", wb=False):
     fig, axes = plt.subplots(1, 2, figsize=(10, 5))
-    axes[0].imshow(image1.permute(1, 2, 0).cpu().numpy())
+    axes[0].imshow(image1.permute(1, 2, 0).detatch().cpu().numpy())
     axes[0].set_title(title1)
     axes[0].axis('off')
     
-    axes[1].imshow(image2.permute(1, 2, 0).cpu().numpy())
+    axes[1].imshow(image2.permute(1, 2, 0).detatch().cpu().numpy())
     axes[1].set_title(title2)
     axes[1].axis('off')
 
