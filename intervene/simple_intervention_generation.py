@@ -125,7 +125,9 @@ def main(config):
 
     # 3. Generate images with the concept active and inactive
     # 3.a Upload images to wandb by pairs (active/inactive)
+    print('Generating Active')
     generated_active = model.dec.forward(noise, probs=concept_probs_active)
+    print('Generating Active')
     generated_inactive = model.dec.forward(noise, probs=concept_probs_inactive)
 
     for i in range(num_imgs):
