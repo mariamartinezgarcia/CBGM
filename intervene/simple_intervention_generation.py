@@ -11,6 +11,8 @@ from torchvision.utils import save_image
 from torch import nn
 from models import cb_vaegan
 import torchvision.transforms as transforms
+import torch.nn.functional as F
+
 import warnings
 
 from utils.utils import sample_noise
@@ -96,18 +98,26 @@ def main(config):
     noise = sample_noise(num_imgs, model.noise_dim, device=device)
 
     # 2. Generate concept prob vectors for generation
-    concept_probs = torch.rand(num_imgs, model.n_concepts)
+    # list of c concepts, each element is a tensor with concept_bins prob values
+    concept_probs = []
+    for i in len(config['model']['concepts']['concept_bins']):
+        probs = torch.randn(num_imgs, config['model']['concepts']['concept_bins'][i])
+        probs = F.softmax(probs, dim=1)
+        concept_probs.append(probs.to(device))
+
     concept = config['eval_config']['concept_to_intervene']
     c = find_string_position(config['eval_config']['concept_to_intervene'], concept)
     
     # Note: this is a quick intervention on binary concepts!! Check how are they handling the categorical concept in the digits
     # 2.a First batch we fix one concept as active
-    concept_probs_active = concept_probs.clone()
-    concept_probs_active[:,c] = 0.999
+    concept_probs_active = concept_probs.copy()
+    concept_probs_active[c][:,0] = 0.001
+    concept_probs_active[c][:,1] = 0.999
     # 2.b Second batch we fix that concept as inactive
-    concept_probs_inactive = concept_probs.clone()
-    concept_probs_inactive[:,c] = 0.001
-    
+    concept_probs_inactive = concept_probs.copy()
+    concept_probs_inactive[c][:,1] = 0.001
+    concept_probs_inactive[c][:,0] = 0.999
+
     # 3. Generate images with the concept active and inactive
     # 3.a Upload images to wandb by pairs (active/inactive)
     generated_active = model.dec.forward(noise, probs=concept_probs_active)
