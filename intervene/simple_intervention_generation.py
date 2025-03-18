@@ -56,7 +56,7 @@ def main(config):
         device = torch.device("cpu")
     
     if config["eval_config"]["checkpoint"]=='default':
-        save_model_name = "/generation_checkpoints/cb_vaegan_" + config["dataset"]["name"]+'.pt'
+        save_model_name = "./generation_checkpoints/cb_vaegan_" + config["dataset"]["name"]+'.pt'
     else:
         save_model_name = config["eval_config"]["checkpoint"]
 
