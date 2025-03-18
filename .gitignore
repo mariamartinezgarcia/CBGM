@@ -1,3 +1,5 @@
 /logs_cluster/
 /wandb/
 /data/
+/generation_checkpoints/
+/images/
