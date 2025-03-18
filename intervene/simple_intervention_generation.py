@@ -97,8 +97,9 @@ def main(config):
 
     # 2. Generate concept prob vectors for generation
     concept_probs = torch.rand(num_imgs, model.n_concepts)
-    c = find_string_position(config['eval_config']['concept_to_intervene'])
     concept = config['eval_config']['concept_to_intervene']
+    c = find_string_position(config['eval_config']['concept_to_intervene'], concept)
+    
     # Note: this is a quick intervention on binary concepts!! Check how are they handling the categorical concept in the digits
     # 2.a First batch we fix one concept as active
     concept_probs_active = concept_probs.clone()
