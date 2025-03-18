@@ -121,7 +121,7 @@ def main(config):
     concept_probs_inactive = concept_probs.copy()
     concept_probs_inactive[c][:,1] = 0.001
     concept_probs_inactive[c][:,0] = 0.999
-    print('Concept Probabilities c Inctive', concept_probs_inactive[c])
+    print('Concept Probabilities c Inactive', concept_probs_inactive[c])
 
     # 3. Generate images with the concept active and inactive
     # 3.a Upload images to wandb by pairs (active/inactive)

@@ -104,6 +104,7 @@ class CBM_plus_Dec(nn.Module):
                 else:
                     logits = probs[c]
                     prob_gumbel = probs[c]
+                    print('prob_gumbel', prob_gumbel)
                 for i in range(self.concept_bins[c]):
                     temp_concept_latent = context[
                         :, (i * self.emb_size) : ((i + 1) * self.emb_size)
