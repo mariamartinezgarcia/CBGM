@@ -18,6 +18,6 @@ output = logs_cluster/$(Clusterid).$(ProcId).out
 error  = logs_cluster/$(Clusterid).$(ProcId).err
 log    = logs_cluster/$(Clusterid).$(ProcId).log
 
-arguments = main_intervention.py -d celeba
+arguments = ./intervene/main_intervention.py -d celeba
 
 queue
