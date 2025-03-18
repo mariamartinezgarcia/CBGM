@@ -40,6 +40,6 @@ evaluation:
   save_results: True
 eval_config:
   checkpoint: 'default'
-  num_imgs: 20
+  num_imgs: 50
   concept_to_intervene: 'Male'
 wandb: True
