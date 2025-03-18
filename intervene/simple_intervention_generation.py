@@ -126,7 +126,7 @@ def main(config):
     generated_active = model.dec.forward(noise, probs=concept_probs_active)
     generated_inactive = model.dec.forward(noise, probs=concept_probs_inactive)
 
-    for i in num_imgs:
+    for i in range(num_imgs):
         title1 = 'Concept '+concept+' active'
         title2 = 'Concept '+concept+' inactive'
         plot_images_side_by_side(generated_active[i], generated_inactive[i], title1=title1, title2=title2, wb=wb)
