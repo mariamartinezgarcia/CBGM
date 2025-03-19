@@ -20,7 +20,8 @@ def main():
     parser.add_argument("-m", "--model", default="vaegan", help="benchmark dataset")
 
     args = parser.parse_args()
-    args.config_file = "./config/" + args.model + "/" + args.dataset + ".yaml"
+    #args.config_file = "./config/" + args.model + "/" + args.dataset + ".yaml"
+    args.config_file = "./config/" + args.model + "/" +'celeba_all' + ".yaml"
 
     with open(args.config_file, "r") as stream:
         config = yaml.safe_load(stream)
