@@ -21,7 +21,7 @@ def main():
     )
 
     args = parser.parse_args()
-    args.config_file = "./config/cb_vaegan/" + args.dataset + "_intervention.yaml"
+    args.config_file = "./config/cb_vaegan/" + 'celeba_all' + "_intervention.yaml"
 
     with open(args.config_file, "r") as stream:
         config = yaml.safe_load(stream)
