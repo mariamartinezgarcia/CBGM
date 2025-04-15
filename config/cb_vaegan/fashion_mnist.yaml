@@ -1,10 +1,11 @@
 dataset:
   name: color_mnist
-  root_path: "/home/martinez-garcia/data"
+  root_path: "/home/molotkova_s/data"
+  concept_dir_path: "/home/molotkova_s/data/FashionMNIST/concept_vectors"
   img_size: 28
   batch_size: 64
   test_batch_size: 1000
-  num_channels: 3
+  num_channels: 1
 model:
   type: cb_vaegan
   latent_noise_dim: 64
