@@ -54,8 +54,8 @@ def get_dataset(config, batch_size=None, istesting=False):
 
     root = config["dataset"]["root_path"]
 
-    if batch_size == None:
-        batch_size = config["dataset"]["batch_size"]
+    if batch_size is None:
+        batch_size = config["dataset"]["test_batch_size"] if istesting else config["dataset"]["batch_size"]
 
     if istesting:
         if config["dataset"]["name"] == "confounded_color_mnist":
