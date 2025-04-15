@@ -120,6 +120,24 @@ def get_dataset(config, batch_size=None, istesting=False):
             )
 
             _, _, dl, _ = celeba.generate_data(CELEBA_CONFIG, root=root, ds_for_generation=False)
+        
+        elif config["dataset"]["name"] == "fashion_mnist":
+            
+            data_dir = os.path.join(root, "FashionMNIST")
+            os.makedirs(data_dir, exist_ok=True)
+            
+            concept_dir = os.path.join(data_dir, "concept_vectors")
+            if not os.path.isdir(concept_dir):
+                raise NotADirectoryError(f"Directory with concepts does not exist: {concept_dir}")
+
+            concept_fmnist_data_module = ConceptFashionMNISTDataModule(
+                concept_dir=concept_dir,  # path to concept vectors
+                data_dir=data_dir,                     # path to FashionMNIST data
+                batch_size=32,                                      # batch size for loading
+                return_labels=True,                                 # whether to return class labels
+                return_images=True,                                 # whether to return images
+                full_concepts=False                                 # whether to use full concept set
+            )
 
     else:
         if config["dataset"]["name"] == "confounded_color_mnist":
@@ -182,4 +200,9 @@ def get_dataset(config, batch_size=None, istesting=False):
             )
 
             dl = celeba.generate_data(CELEBA_CONFIG,root=root, ds_for_generation=True)
+
+        elif config["dataset"]["name"] == "fashion_mnist":
+            # TODO: return data loader for fashion_mnist for training
+            pass
+
     return dl
