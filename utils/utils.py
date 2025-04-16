@@ -1,12 +1,21 @@
 import torch
 from torch import nn
 import numpy as np
-import torchvision
+
+import os
+import sys
+
 from torchvision import transforms
 from torchvision import datasets
-from datasets import color_mnist
-from datasets import celeba
-import os
+
+#print("Current Working Directory:", os.getcwd())
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from datasets import color_mnist, celeba, fashion_mnist
+
+#print("Python search paths:")
+#for path in sys.path:
+#    print(path)
 
 
 def sample_noise(num, dim, device=None) -> torch.Tensor:
@@ -126,18 +135,20 @@ def get_dataset(config, batch_size=None, istesting=False):
             data_dir = os.path.join(root, "FashionMNIST")
             os.makedirs(data_dir, exist_ok=True)
             
-            concept_dir = os.path.join(data_dir, "concept_vectors")
-            if not os.path.isdir(concept_dir):
-                raise NotADirectoryError(f"Directory with concepts does not exist: {concept_dir}")
-
-            concept_fmnist_data_module = ConceptFashionMNISTDataModule(
-                concept_dir=concept_dir,  # path to concept vectors
-                data_dir=data_dir,                     # path to FashionMNIST data
-                batch_size=32,                                      # batch size for loading
-                return_labels=True,                                 # whether to return class labels
-                return_images=True,                                 # whether to return images
-                full_concepts=False                                 # whether to use full concept set
+            concept_dir = config["dataset"]["concept_dir_path"]
+            
+            concept_fmnist_data_module = fashion_mnist.ConceptFashionMNISTDataModule(
+                concept_dir=concept_dir,
+                data_dir=data_dir,
+                batch_size=batch_size,
+                return_labels=True,
+                return_images=True,
+                full_concepts=False
             )
+            concept_fmnist_data_module.prepare_data()
+            concept_fmnist_data_module.setup(stage="test")
+            
+            dl = concept_fmnist_data_module.test_dataloader()
 
     else:
         if config["dataset"]["name"] == "confounded_color_mnist":
