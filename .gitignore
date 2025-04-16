@@ -3,3 +3,4 @@
 /data/
 /generation_checkpoints/
 /images/
+**/__pycache__/
