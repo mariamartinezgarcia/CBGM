@@ -1,7 +1,7 @@
 dataset:
-  name: color_mnist
-  root_path: "/home/molotkova_s/data"
-  concept_dir_path: "/home/molotkova_s/data/FashionMNIST/concept_vectors"
+  name: fashion_mnist
+  root_path: "/home/molotkova_s/Desktop/mlteam/data/"
+  concept_dir_path: "/home/molotkova_s/Desktop/mlteam/data/FashionMNIST/concept_vectors"
   img_size: 28
   batch_size: 64
   test_batch_size: 1000
@@ -15,12 +15,12 @@ model:
   has_concepts: True
   concepts:
       emb_size: 16
-      concept_names: ["label","red","green"]
-      types: ["cat", "bin","bin" ]
-      concept_latent: [10,10,10]
-      concept_hidden: [124,124,124]
-      concept_bins: [10,2,2]
-      concept_output: [10,1,1]
+      concept_names: ["Clothes", "Tops", "Bottoms", "Dresses", "Outers", "Goods", "Accessories", "Shoes"]
+      types: ["bin", "bin", "bin", "bin", "bin", "bin", "bin", "bin"]
+      concept_latent: [10, 10, 10, 10, 10, 10, 10, 10]
+      concept_hidden: [124, 124, 124, 124, 124, 124, 124, 124]
+      concept_bins: [2, 2, 2, 2, 2, 2, 2, 2] 
+      concept_output: [1, 1, 1, 1, 1, 1, 1, 1]
 
 train_config:
   epochs: 20
