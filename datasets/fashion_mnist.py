@@ -146,12 +146,12 @@ class ConceptFashionMNISTDataset(FashionMNIST):
 
     def _load_concepts_from_tensor(self, concept_dir: str) -> torch.Tensor:
         if self.full_concepts:
-            print("\n\nLoading the full concept vectors")
+            # print("\n\nLoading the full concept vectors")
             concept_file = (
                 f"{'train' if self.train else 'test'}_COMPLETE_concept_tensor.pt"
             )
         else:
-            print("\n\nLoading the original concept vectors")
+            # print("\n\nLoading the original concept vectors")
             concept_file = f"{'train' if self.train else 'test'}_concept_tensor.pt"
         concepts_tensor = torch.load(
             os.path.join(concept_dir, concept_file), weights_only=True
