@@ -132,14 +132,11 @@ def get_dataset(config, batch_size=None, istesting=False):
         
         elif config["dataset"]["name"] == "fashion_mnist":
             
-            data_dir = os.path.join(root, "FashionMNIST")
-            os.makedirs(data_dir, exist_ok=True)
-            
             concept_dir = config["dataset"]["concept_dir_path"]
             
             concept_fmnist_data_module = fashion_mnist.ConceptFashionMNISTDataModule(
                 concept_dir=concept_dir,
-                data_dir=data_dir,
+                data_dir=root,
                 batch_size=batch_size,
                 return_labels=True,
                 return_images=True,
@@ -213,7 +210,20 @@ def get_dataset(config, batch_size=None, istesting=False):
             dl = celeba.generate_data(CELEBA_CONFIG,root=root, ds_for_generation=True)
 
         elif config["dataset"]["name"] == "fashion_mnist":
-            # TODO: return data loader for fashion_mnist for training
-            pass
+            
+            concept_dir = config["dataset"]["concept_dir_path"]
+            
+            concept_fmnist_data_module = fashion_mnist.ConceptFashionMNISTDataModule(
+                concept_dir=concept_dir,
+                data_dir=root,
+                batch_size=batch_size,
+                return_labels=True,
+                return_images=True,
+                full_concepts=False
+            )
+            concept_fmnist_data_module.prepare_data()
+            concept_fmnist_data_module.setup(stage="fit")
+            
+            dl = concept_fmnist_data_module.train_dataloader()
 
     return dl
