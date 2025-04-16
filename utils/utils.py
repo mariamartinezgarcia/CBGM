@@ -8,14 +8,7 @@ import sys
 from torchvision import transforms
 from torchvision import datasets
 
-#print("Current Working Directory:", os.getcwd())
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from datasets import color_mnist, celeba, fashion_mnist
-
-#print("Python search paths:")
-#for path in sys.path:
-#    print(path)
 
 
 def sample_noise(num, dim, device=None) -> torch.Tensor:
