@@ -30,6 +30,21 @@ While for a vaegan with a concept bottleneck layer is:
 python main.py -m cb_vaegan -d celeba
 ```
 
+## Data loaders
+### FashionMNIST
+```
+image, concepts, target = dl.dataset[i]
+```
+### ColoredMNIST
+```
+image, labels = dl.dataset[i]
+target = labels[:, 0]
+concepts = labels[:, 1:]
+```
+### CelebA
+```
+image, (target, concepts) = dl.dataset[i]
+```
 
 ## License
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://www.apache.org/licenses/LICENSE-2.0.
