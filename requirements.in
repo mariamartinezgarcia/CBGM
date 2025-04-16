@@ -6,3 +6,4 @@ torch
 torchvision
 pyyaml
 matplotlib
+pytorch-lightning==2.5.1
