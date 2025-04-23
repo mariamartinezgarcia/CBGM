@@ -33,17 +33,17 @@ python main.py -m cb_vaegan -d celeba
 ## Data loaders
 ### FashionMNIST
 ```
-image, concepts, target = dl.dataset[i]
+image, concepts, target = data_loader.dataset[i]
 ```
 ### ColoredMNIST
 ```
-image, labels = dl.dataset[i]
+image, labels = data_loader.dataset[i]
 target = labels[:, 0]
 concepts = labels[:, 1:]
 ```
 ### CelebA
 ```
-image, (target, concepts) = dl.dataset[i]
+image, (target, concepts) = data_loader.dataset[i]
 ```
 
 ## License
